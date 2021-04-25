@@ -1,13 +1,17 @@
 # Docker Periodic Prune
 
-This container runs a shell script that prunes stopped containers.  It executes something akin to `docker container prune -f` every hour.  It is configured to only do it for containers that are older than 30 minutes.
+This container runs a shell script that prunes stopped containers.  This helps having to remember to clean up what could be gigs of space that are left over when testing on local containers.  The script executes every hour and does something similar the following via Docker socket.
+
+* `docker container prune -f` for containers that are older than 30 minutes.
+* `docker image prune -f` for images that are older than 2 hours.
+* `docker image prune -f --all` for images that are older than 2 days.
+
+To run this.
 
     docker run -d --restart=always -v //var/run/docker.sock:/var/run/docker.sock --name periodic-prune trajano/periodic-prune
-
-This helps having to remember to clean up what could be gigs of space that are left over when testing on local containers.
 
 ## Developer notes
 
 Testing locally
 
-    docker run -it -v //var/run/docker.sock:/var/run/docker.sock:ro  `docker build -q  . ` //prune
+    docker run -v //var/run/docker.sock:/var/run/docker.sock:ro  `docker build -q  . ` //prune
