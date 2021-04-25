@@ -1,5 +1,4 @@
 FROM alpine
-COPY --chown=bin prune.sh /prune
+COPY prune.sh /prune
 RUN apk add -U curl && chmod 700 /prune
-USER bin
-CMD /prune
+CMD [ "watch", "-t",  "-n", "3600" , "/prune" ]

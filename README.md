@@ -5,3 +5,9 @@ This container runs a shell script that prunes stopped containers.  It executes 
     docker run -d --restart=always -v //var/run/docker.sock:/var/run/docker.sock --name periodic-prune trajano/periodic-prune
 
 This helps having to remember to clean up what could be gigs of space that are left over when testing on local containers.
+
+## Developer notes
+
+Testing locally
+
+    docker run -it -v //var/run/docker.sock:/var/run/docker.sock:ro  `docker build -q  . ` //prune
